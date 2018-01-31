@@ -7,19 +7,16 @@
 function [ecModel,model_data,kcats] = enhanceGEM(model,toolbox,name)
 
 %Provide your organism scientific name
-org_name      = 'saccharomyces cerevisiae';
-org_code      = 'sce';
+org_name      = 'escherichia coli';
+org_code      = 'eco';
 format short e
 
 if strcmp(toolbox,'COBRA')
    initCobraToolbox
 end
 
-%Update yeast 7 model with all recommended changes:
-cd get_enzyme_data
-model = modelCorrections(model);
-
 %Add some RAVEN fields for easier visualization later on:
+cd get_enzyme_data
 model = standardizeModel(model,toolbox);
 
 %Retrieve kcats & MWs for each rxn in model:
@@ -30,12 +27,11 @@ save([org_code '_enzData.mat'],'model_data','kcats')
 %Integrate enzymes in the model:
 cd ../Matlab_Module/change_model
 ecModel = readKcatData(model_data,kcats);
-ecModel = manualModifications(ecModel);
 
 %Constrain model to batch conditions:
 cd ../limit_proteins
-sigma         = 0.51;      %Optimized for glucose
-Ptot          = 0.5;       %Assumed constant
+sigma         = 0.5;      %Optimized for glucose
+Ptot          = 0.6;       %Assumed constant
 ecModel_batch = constrainEnzymes(ecModel,Ptot,sigma);
 
 %Save output models:

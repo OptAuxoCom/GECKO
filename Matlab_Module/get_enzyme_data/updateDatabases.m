@@ -17,10 +17,10 @@ function [swissprot,kegg] = updateDatabases
 cd ../../Databases
 swissprot = buildSWISSPROTtable;
 
-%Download KEGG data:
-mkdir KEGG
+% %Download KEGG data:
+% mkdir KEGG
 cd KEGG
-downloadKEGGdata('sce')
+% downloadKEGGdata('eco')
 
 %Build KEGG table
 kegg = buildKEGGtable;
@@ -41,7 +41,7 @@ end
 function swissprot = buildSWISSPROTtable
 
 %Build Swissprot table (uniprot code - protein name - gene names - EC number - MW - sequence):
-fileID_uni        = fopen('uniprot-organism%3Ayeast.tab');
+fileID_uni        = fopen('uniprot-coli.tab');
 swissprot         = textscan(fileID_uni,'%s %s %s %s %s %s','delimiter','\t');
 swissprot         = [swissprot{1} swissprot{2} swissprot{3} swissprot{4} swissprot{5}];
 swissprot(1,:)    = [];
@@ -157,15 +157,14 @@ for i = 1:length(file_names)
                 
             %6th column: pathway
             elseif strcmp(line(1:7),'PATHWAY')
-                start    = strfind(line,'sce');
+                start    = strfind(line,'eco');
                 pathway  = line(start(1):end);
                 end_path = false;
                 for k = j+1:length(text)
-                    nospace = strrep(text{k},'sce01100  Metabolic pathways','');
-                    nospace = strrep(nospace,' ','');
+                    nospace = strrep(text{k},' ','');
                     if length(nospace) > 10
-                        if strcmp(nospace(1:3),'sce') && ~end_path
-                            start    = strfind(text{k},'sce');
+                        if strcmp(nospace(1:3),'eco') && ~end_path
+                            start    = strfind(text{k},'eco');
                             pathway  = [pathway ' ' text{k}(start(1):end)];
                         else
                             end_path = true;

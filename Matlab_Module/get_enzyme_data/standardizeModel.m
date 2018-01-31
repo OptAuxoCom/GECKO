@@ -15,22 +15,20 @@
 
 function model = standardizeModel(model,toolbox)
 
-mets = model.metNames;
+mets = model.mets;
 M    = length(mets);
 
 if strcmp(toolbox,'COBRA')
     comps = cell(M,1);
     for i = 1:M
         name     = mets{i};
-        m        = length(name);
         %Split the met name in 2: The compartment and the metabolite name.
         %Afterwards, assign each to the corresponding list.
-        k        = strfind(name,'[');
-        n        = length(k);
-        mets{i}  = name(1:k(n)-2);
-        comps{i} = lower(name(k(n)+1:m-1));
+        k        = strfind(name,'_');
+        mets{i}  = name(1:k-1);
+        comps{i} = lower(name(k+1:end));
     end
-    model.metNames = mets;
+    model.mets = mets;
     
     %Create compNames (list with the copartment names), comps
     %(abbreviations) and metComps (compartment in which each metabolite
