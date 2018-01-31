@@ -38,7 +38,10 @@ model  = addReaction(model,name,[['pmet_' rxn], metP],[-1,coeffsP]);
 
 %Update metComps:
 pos = strcmp(model.mets,['pmet_' rxn]);
-model.metComps(pos) = model.metComps(sub_pos(1));
+if isempty(sub_pos)
+    model.metComps(pos) = model.metComps(sub_pos(1));
+else
+    model.metComps(pos) = model.metComps(pro_pos(1));
 
 end
 
