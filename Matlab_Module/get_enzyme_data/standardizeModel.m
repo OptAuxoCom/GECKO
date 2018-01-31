@@ -25,8 +25,8 @@ if strcmp(toolbox,'COBRA')
         %Split the met name in 2: The compartment and the metabolite name.
         %Afterwards, assign each to the corresponding list.
         k        = strfind(name,'_');
-        mets{i}  = name(1:k-1);
-        comps{i} = lower(name(k+1:end));
+        mets{i}  = name(1:k(end)-1);
+        comps{i} = lower(name(k(end)+1:end));
     end
     model.mets = mets;
     
