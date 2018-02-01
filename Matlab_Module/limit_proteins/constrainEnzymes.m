@@ -8,8 +8,8 @@
 function model = constrainEnzymes(model,Ptot,sigma,pIDs,data)
 
 %Current values:
-f       = 0.4461; %Yeast 7.6 (all enzymes) [g(Pmodel)/g(Ptot)]
-Pbase   = 0.4005; %Value from biomass comp. (Förster data @ 0.1 1/h)
+[f,~]   = measureAbundance(model.enzymes,'prot_abundance.txt');
+Pbase   = 0.55;
 
 %No UB will be changed if no data is available -> pool = all enzymes(FBAwMC)
 if nargin == 3
@@ -54,9 +54,8 @@ if sum(strcmp(model.rxns,'prot_pool_exchange')) == 0
     model = constrainPool(model,~measured,1000);
 end
 
-model = fixedModifications(model);
-
-model = changeProtein(model,Ptot,fs);
+P_pos = strcmp(model.rxns,'prot_pool_exchange');
+model.ub(P_pos) = fs*Pbase;    %Fixed % protein
 
 %Display some metrics:
 disp(['Total protein amount measured = '     num2str(Pmeasured)              ' g/gDW'])

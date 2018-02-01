@@ -31,15 +31,13 @@ ecModel = readKcatData(model_data,kcats);
 %Constrain model to batch conditions:
 cd ../limit_proteins
 sigma         = 0.5;      %Optimized for glucose
-Ptot          = 0.6;       %Assumed constant
+Ptot          = 0.55;     %Assumed constant
 ecModel_batch = constrainEnzymes(ecModel,Ptot,sigma);
 
 %Save output models:
 cd ../../models
 save([name '.mat'],'ecModel','model_data','kcats')
 save([name '_batch.mat'],'ecModel_batch')
-saveECmodelSBML(ecModel,name);
-saveECmodelSBML(ecModel_batch,[name '_batch']);
 cd ../Matlab_Module
 
 end
