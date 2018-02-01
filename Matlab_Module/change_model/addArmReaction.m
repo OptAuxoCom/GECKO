@@ -42,7 +42,8 @@ if sum(sub_pos) > 0
     model.metComps(pos) = model.metComps(sub_pos(1));
 else
     model.metComps(pos) = model.metComps(pro_pos(1));
-
+end
+    
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

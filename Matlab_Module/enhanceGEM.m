@@ -17,7 +17,9 @@ end
 
 %Add some RAVEN fields for easier visualization later on:
 cd get_enzyme_data
+model = modelCorrections(model);
 model = standardizeModel(model,toolbox);
+model.csense = model.csense';
 
 %Retrieve kcats & MWs for each rxn in model:
 model_data = getEnzymeCodes(model);
